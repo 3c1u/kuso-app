@@ -1982,13 +1982,21 @@ var __awaiter = undefined && undefined.__awaiter || function (thisArg, _argument
 
 var initialState = {
   todos: [],
-  loading: false
+  loading: false,
+  sending: false
 };
 
 var setLoading = function setLoading(loading) {
   return {
     type: 'SET_LOADING',
     loading: loading
+  };
+};
+
+var setSending = function setSending(sending) {
+  return {
+    type: 'SET_SENDING',
+    sending: sending
   };
 };
 
@@ -2017,6 +2025,14 @@ function reducer() {
         var loading = action.loading;
         return Object.assign(Object.assign({}, currentState), {
           loading: loading
+        });
+      }
+
+    case 'SET_SENDING':
+      {
+        var sending = action.sending;
+        return Object.assign(Object.assign({}, currentState), {
+          sending: sending
         });
       }
 
@@ -2060,16 +2076,18 @@ var pushTodo = function pushTodo(todo) {
         while (1) {
           switch (_context2.prev = _context2.next) {
             case 0:
-              _context2.next = 2;
+              dispatch(setSending(true));
+              _context2.next = 3;
               return axios__WEBPACK_IMPORTED_MODULE_5___default().post('/api/todos', {
                 todo: todo
               });
 
-            case 2:
+            case 3:
               todos = _context2.sent;
               dispatch(setTodos(todos.data));
+              dispatch(setSending(false));
 
-            case 4:
+            case 6:
             case "end":
               return _context2.stop();
           }
@@ -2086,14 +2104,16 @@ var removeTodo = function removeTodo(id) {
         while (1) {
           switch (_context3.prev = _context3.next) {
             case 0:
-              _context3.next = 2;
+              dispatch(setSending(true));
+              _context3.next = 3;
               return axios__WEBPACK_IMPORTED_MODULE_5___default().delete("/api/todos/".concat(id), {});
 
-            case 2:
+            case 3:
               todos = _context3.sent;
               dispatch(setTodos(todos.data));
+              dispatch(setSending(false));
 
-            case 4:
+            case 6:
             case "end":
               return _context3.stop();
           }
@@ -2103,6 +2123,26 @@ var removeTodo = function removeTodo(id) {
   };
 };
 var useSelector = (0,react_redux__WEBPACK_IMPORTED_MODULE_3__.createSelectorHook)();
+
+var DeleteButton = function DeleteButton(props) {
+  return react__WEBPACK_IMPORTED_MODULE_1__.createElement("button", Object.assign({}, props, {
+    className: "delete-button"
+  }), react__WEBPACK_IMPORTED_MODULE_1__.createElement("svg", {
+    xmlns: "http://www.w3.org/2000/svg",
+    viewBox: "0 0 24 24"
+  }, react__WEBPACK_IMPORTED_MODULE_1__.createElement("g", {
+    "data-name": "Layer 2"
+  }, react__WEBPACK_IMPORTED_MODULE_1__.createElement("g", {
+    "data-name": "close"
+  }, react__WEBPACK_IMPORTED_MODULE_1__.createElement("rect", {
+    width: "24",
+    height: "24",
+    transform: "rotate(180 12 12)",
+    opacity: "0"
+  }), react__WEBPACK_IMPORTED_MODULE_1__.createElement("path", {
+    d: "M13.41 12l4.3-4.29a1 1 0 1 0-1.42-1.42L12 10.59l-4.29-4.3a1 1 0 0 0-1.42 1.42l4.3 4.29-4.3 4.29a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l4.29-4.3 4.29 4.3a1 1 0 0 0 1.42 0 1 1 0 0 0 0-1.42z"
+  })))));
+};
 
 var App = function App(props) {
   var _React$useState = react__WEBPACK_IMPORTED_MODULE_1__.useState(''),
@@ -2124,28 +2164,44 @@ var App = function App(props) {
 
   var _useSelector = useSelector(function (_ref) {
     var loading = _ref.loading,
+        sending = _ref.sending,
         todos = _ref.todos;
-    return [loading, todos];
+    return [loading, sending, todos];
   }),
-      _useSelector2 = _slicedToArray(_useSelector, 2),
+      _useSelector2 = _slicedToArray(_useSelector, 3),
       loading = _useSelector2[0],
-      todos = _useSelector2[1];
+      sending = _useSelector2[1],
+      todos = _useSelector2[2];
 
-  return react__WEBPACK_IMPORTED_MODULE_1__.createElement(react__WEBPACK_IMPORTED_MODULE_1__.Fragment, null, react__WEBPACK_IMPORTED_MODULE_1__.createElement("h2", null, "Todos"), loading ? react__WEBPACK_IMPORTED_MODULE_1__.createElement("p", null, "loading...") : todos.map(function (v) {
+  return react__WEBPACK_IMPORTED_MODULE_1__.createElement("div", {
+    className: "app-root"
+  }, react__WEBPACK_IMPORTED_MODULE_1__.createElement("div", {
+    className: "app-container"
+  }, react__WEBPACK_IMPORTED_MODULE_1__.createElement("h2", {
+    className: "todos-heading"
+  }, "Todos"), react__WEBPACK_IMPORTED_MODULE_1__.createElement("div", null, loading ? react__WEBPACK_IMPORTED_MODULE_1__.createElement("p", null, "loading...") : todos.map(function (v) {
     return react__WEBPACK_IMPORTED_MODULE_1__.createElement("p", {
+      className: "todo-item",
       key: v.id
-    }, react__WEBPACK_IMPORTED_MODULE_1__.createElement("button", {
+    }, react__WEBPACK_IMPORTED_MODULE_1__.createElement(DeleteButton, {
       onClick: function onClick() {
         dispatch(removeTodo(v.id));
       }
-    }, "x"), v.title);
+    }), react__WEBPACK_IMPORTED_MODULE_1__.createElement("span", {
+      className: "todo-label"
+    }, v.title));
   }), react__WEBPACK_IMPORTED_MODULE_1__.createElement("form", {
+    className: "todo-form",
     onSubmit: handleSubmit
   }, react__WEBPACK_IMPORTED_MODULE_1__.createElement("input", {
+    className: "todo-input",
     type: "text",
     value: todo,
     onChange: handleChange
-  }), react__WEBPACK_IMPORTED_MODULE_1__.createElement("button", null, "Add")));
+  }), react__WEBPACK_IMPORTED_MODULE_1__.createElement("button", {
+    className: "add-button",
+    disabled: sending
+  }, "Add")))));
 };
 
 var store = (0,redux__WEBPACK_IMPORTED_MODULE_6__.createStore)(reducer, (0,redux__WEBPACK_IMPORTED_MODULE_6__.applyMiddleware)(redux_thunk__WEBPACK_IMPORTED_MODULE_4__.default));
@@ -2283,10 +2339,10 @@ module.exports = hoistNonReactStatics;
 
 /***/ }),
 
-/***/ "./resources/css/app.css":
-/*!*******************************!*\
-  !*** ./resources/css/app.css ***!
-  \*******************************/
+/***/ "./resources/css/app.sass":
+/*!********************************!*\
+  !*** ./resources/css/app.sass ***!
+  \********************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -36788,7 +36844,7 @@ function symbolObservablePonyfill(root) {
 /******/ 		
 /******/ 		var deferredModules = [
 /******/ 			["./resources/ts/main.ts"],
-/******/ 			["./resources/css/app.css"]
+/******/ 			["./resources/css/app.sass"]
 /******/ 		];
 /******/ 		// no chunk on demand loading
 /******/ 		

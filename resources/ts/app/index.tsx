@@ -15,11 +15,13 @@ type Todo = {
 interface State {
     todos: Todo[],
     loading: boolean,
+    sending: boolean,
 }
 
 const initialState: State = {
     todos: [],
     loading: false,
+    sending: false,
 }
 
 const setLoading = (loading: boolean) =>
@@ -28,13 +30,19 @@ const setLoading = (loading: boolean) =>
         loading,
     } as const)
 
+const setSending = (sending: boolean) =>
+    ({
+        type: 'SET_SENDING',
+        sending,
+    } as const)
+
 const setTodos = (todos: Todo[]) =>
     ({
         type: 'SET_TODOS',
         todos,
     } as const)
 
-type Actions = ReturnType<typeof setTodos | typeof setLoading>
+type Actions = ReturnType<typeof setTodos | typeof setLoading | typeof setSending>
 
 export default function reducer(
     currentState = initialState,
@@ -53,6 +61,12 @@ export default function reducer(
                 ...currentState, loading
             }
         }
+        case 'SET_SENDING': {
+            const {sending} = action
+            return {
+                ...currentState, sending
+            }
+        }
         default:
             break;
     }
@@ -67,16 +81,34 @@ export const loadTodos = (): ThunkAction<Promise<void>, State, undefined, Action
 }
 
 export const pushTodo = (todo: string): ThunkAction<Promise<void>, State, undefined, Actions> => async (dispatch, _) => {
-    const todos = await axios.post<Todo[]>('/api/todos', { todo })
+    dispatch(setSending(true))
+    const todos = await axios.post<Todo[]>('/api/todos', {todo})
     dispatch(setTodos(todos.data))
+    dispatch(setSending(false))
 }
 
 export const removeTodo = (id: number): ThunkAction<Promise<void>, State, undefined, Actions> => async (dispatch, _) => {
+    dispatch(setSending(true))
     const todos = await axios.delete<Todo[]>(`/api/todos/${id}`, {})
     dispatch(setTodos(todos.data))
+    dispatch(setSending(false))
 }
 
 export const useSelector = createSelectorHook<State, Actions>()
+
+const DeleteButton = (props: any) => (
+    <button {...props} className="delete-button">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <g data-name="Layer 2">
+                <g data-name="close">
+                    <rect width="24" height="24" transform="rotate(180 12 12)" opacity="0" />
+                    <path
+                        d="M13.41 12l4.3-4.29a1 1 0 1 0-1.42-1.42L12 10.59l-4.29-4.3a1 1 0 0 0-1.42 1.42l4.3 4.29-4.3 4.29a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l4.29-4.3 4.29 4.3a1 1 0 0 0 1.42 0 1 1 0 0 0 0-1.42z"
+                    />
+                </g>
+            </g>
+        </svg>
+    </button>)
 
 const App = (props: {}) => {
     const [todo, setTodo] = React.useState('')
@@ -89,22 +121,26 @@ const App = (props: {}) => {
     const handleChange = (e: ChangeEvent) => {
         setTodo((e.target as HTMLInputElement).value)
     }
-    const [loading, todos] = useSelector(({loading, todos}) => [loading, todos])
+    const [loading, sending, todos] = useSelector(({loading, sending, todos}) => [loading, sending, todos])
 
-    return (<>
-        <h2>Todos</h2>
-        {loading ? <p>loading...</p> : todos.map(v =>
-            <p key={v.id}>
-                <button onClick={() => {
-                    dispatch(removeTodo(v.id) as any)
-                }}>x</button>
-                {v.title}
-            </p>)}
-        <form onSubmit={handleSubmit}>
-            <input type="text" value={todo} onChange={handleChange}/>
-            <button>Add</button>
-        </form>
-    </>)
+    return (<div className="app-root">
+        <div className="app-container">
+            <h2 className="todos-heading">Todos</h2>
+            <div>
+                {loading ? <p>loading...</p> : todos.map(v =>
+                    <p className="todo-item" key={v.id}>
+                        <DeleteButton onClick={() => {
+                            dispatch(removeTodo(v.id) as any)
+                        }}/>
+                        <span className="todo-label">{v.title}</span>
+                    </p>)}
+                <form className="todo-form" onSubmit={handleSubmit}>
+                    <input className="todo-input" type="text" value={todo} onChange={handleChange}/>
+                    <button className="add-button" disabled={sending}>Add</button>
+                </form>
+            </div>
+        </div>
+    </div>)
 }
 
 const store = createStore(reducer,
