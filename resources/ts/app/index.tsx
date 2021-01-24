@@ -114,6 +114,11 @@ const App = (props: {}) => {
     const [todo, setTodo] = React.useState('')
     const dispatch = useDispatch()
     const handleSubmit = (e: FormEvent) => {
+        if (todo.length === 0) {
+            e.preventDefault()
+            return
+        }
+        
         dispatch(pushTodo(todo) as any)
         setTodo('')
         e.preventDefault()
@@ -136,7 +141,7 @@ const App = (props: {}) => {
                     </p>)}
                 <form className="todo-form" onSubmit={handleSubmit}>
                     <input className="todo-input" type="text" value={todo} onChange={handleChange}/>
-                    <button className="add-button" disabled={sending}>Add</button>
+                    <button className="add-button" disabled={sending || todo.length === 0}>Add</button>
                 </form>
             </div>
         </div>
