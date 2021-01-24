@@ -24,9 +24,50 @@ body
 
 .app-root
     display: flex
+    flex-direction: column
     width: 100vw
     min-height: 100vh
-    padding: 50px 0
+
+.header
+    display: flex
+    margin: 5px
+    > h1
+        flex: 1
+        font-size: 20px
+        font-weight: 500
+        margin: 0
+    > .form-group
+        display: flex
+
+.logout-group
+    display: flex
+    align-items: center
+    .logout-button
+        position: relative
+        background: none
+        margin: 0 10px
+        padding: 0
+        cursor: pointer
+        color: #1478f1
+        &::after
+            position: absolute
+            bottom: 1px
+            left: 0
+            content: ''
+            width: 100%
+            height: 1px
+            background: #1478f1
+            transition-property: opacity, transform
+            transition-duration: 200ms
+        &:hover::after
+            opacity: 0
+            transform: scaleX(0.1)
+        &:not(:focus-visible)
+            outline: none
+
+.app-body
+    display: flex
+    width: 100vw
     box-sizing: border-box
     flex-direction: column
     justify-content: center
@@ -35,6 +76,7 @@ body
 .app-container
     background-color: #ffffff
     padding: 20px
+    margin: 50px 0
     border-radius: 5px
     min-width: 30%
     @include elevate(8)
@@ -62,7 +104,7 @@ body
 .todo-form
     display: flex
 
-.todo-input
+.todo-input, .form-input
     flex: 1
     border: 1px solid #cbd5e0
     border-radius: 3px
@@ -70,7 +112,11 @@ body
     letter-spacing: 0.05em
     padding: 5px
 
-.add-button
+.form-input
+    margin-right: 10px
+    font-size: 14px
+
+.add-button, .login-button
     background: #1478f1
     color: white
     font-family: 'Roboto', sans-serif

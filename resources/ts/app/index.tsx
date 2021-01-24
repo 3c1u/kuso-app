@@ -12,16 +12,22 @@ type Todo = {
     updated_at: string
 }
 
+interface User {
+    name: string
+}
+
 interface State {
     todos: Todo[],
     loading: boolean,
     sending: boolean,
+    user: User | null,
 }
 
 const initialState: State = {
     todos: [],
     loading: false,
     sending: false,
+    user: null,
 }
 
 const setLoading = (loading: boolean) =>
@@ -42,7 +48,13 @@ const setTodos = (todos: Todo[]) =>
         todos,
     } as const)
 
-type Actions = ReturnType<typeof setTodos | typeof setLoading | typeof setSending>
+const setUser = (user: User | null) =>
+    ({
+        type: 'SET_USER',
+        user,
+    } as const)
+
+type Actions = ReturnType<typeof setTodos | typeof setLoading | typeof setSending | typeof setUser>
 
 export default function reducer(
     currentState = initialState,
@@ -67,10 +79,25 @@ export default function reducer(
                 ...currentState, sending
             }
         }
+        case 'SET_USER': {
+            const {user} = action
+            return {
+                ...currentState, user
+            }
+        }
         default:
             break;
     }
     return currentState
+}
+
+export const loadUser = (): ThunkAction<Promise<void>, State, undefined, Actions> => async (dispatch, _) => {
+    try {
+        const user = await axios.get<User>('/api/user')
+        dispatch(setUser(user.data))
+    } catch (e) {
+        dispatch(setUser(null))
+    }
 }
 
 export const loadTodos = (): ThunkAction<Promise<void>, State, undefined, Actions> => async (dispatch, _) => {
@@ -101,7 +128,7 @@ const DeleteButton = (props: any) => (
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
             <g data-name="Layer 2">
                 <g data-name="close">
-                    <rect width="24" height="24" transform="rotate(180 12 12)" opacity="0" />
+                    <rect width="24" height="24" transform="rotate(180 12 12)" opacity="0"/>
                     <path
                         d="M13.41 12l4.3-4.29a1 1 0 1 0-1.42-1.42L12 10.59l-4.29-4.3a1 1 0 0 0-1.42 1.42l4.3 4.29-4.3 4.29a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l4.29-4.3 4.29 4.3a1 1 0 0 0 1.42 0 1 1 0 0 0 0-1.42z"
                     />
@@ -109,6 +136,49 @@ const DeleteButton = (props: any) => (
             </g>
         </svg>
     </button>)
+
+const Header = () => {
+    const [email, setEmail] = React.useState('')
+    const [password, setPassword] = React.useState('')
+    const dispatch = useDispatch()
+    const user = useSelector(s => s.user)
+
+    return <div className="header">
+        <h1>Kuso App</h1>
+        {
+            user === null ? (
+                <div className="login-group">
+                    <form onSubmit={(event) => {
+                        event.preventDefault()
+                        ;(async () => {
+                            await axios.post('/api/login', {email, password})
+                            dispatch(loadUser())
+                        })()
+                    }}>
+                        <input type="email" name="email" className="form-input" placeholder="Email" value={email}
+                               onChange={(e) => setEmail((e.target as HTMLInputElement).value)}/>
+                        <input type="password" name="password" className="form-input" placeholder="Password" value={password}
+                               onChange={(e) => setPassword((e.target as HTMLInputElement).value)}/>
+                        <button className="login-button">Login</button>
+                    </form>
+                </div>
+            ) : (
+                <div className="logout-group">
+                    <p>Logged as: {user.name}</p>
+                    <form onSubmit={(event) => {
+                        event.preventDefault()
+                        ;(async () => {
+                            await axios.post('/api/logout')
+                            dispatch(loadUser())
+                        })()
+                    }}>
+                        <button className="logout-button">Logout</button>
+                    </form>
+                </div>
+            )
+        }
+    </div>
+}
 
 const App = (props: {}) => {
     const [todo, setTodo] = React.useState('')
@@ -118,7 +188,7 @@ const App = (props: {}) => {
             e.preventDefault()
             return
         }
-        
+
         dispatch(pushTodo(todo) as any)
         setTodo('')
         e.preventDefault()
@@ -129,20 +199,23 @@ const App = (props: {}) => {
     const [loading, sending, todos] = useSelector(({loading, sending, todos}) => [loading, sending, todos])
 
     return (<div className="app-root">
-        <div className="app-container">
-            <h2 className="todos-heading">Todos</h2>
-            <div>
-                {loading ? <p>loading...</p> : todos.map(v =>
-                    <p className="todo-item" key={v.id}>
-                        <DeleteButton onClick={() => {
-                            dispatch(removeTodo(v.id) as any)
-                        }}/>
-                        <span className="todo-label">{v.title}</span>
-                    </p>)}
-                <form className="todo-form" onSubmit={handleSubmit}>
-                    <input className="todo-input" type="text" value={todo} onChange={handleChange}/>
-                    <button className="add-button" disabled={sending || todo.length === 0}>Add</button>
-                </form>
+        <Header/>
+        <div className="app-body">
+            <div className="app-container">
+                <h2 className="todos-heading">Todos</h2>
+                <div>
+                    {loading ? <p>loading...</p> : todos.map(v =>
+                        <p className="todo-item" key={v.id}>
+                            <DeleteButton onClick={() => {
+                                dispatch(removeTodo(v.id) as any)
+                            }}/>
+                            <span className="todo-label">{v.title}</span>
+                        </p>)}
+                    <form className="todo-form" onSubmit={handleSubmit}>
+                        <input className="todo-input" type="text" value={todo} onChange={handleChange}/>
+                        <button className="add-button" disabled={sending || todo.length === 0}>Add</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>)
@@ -151,4 +224,5 @@ const App = (props: {}) => {
 const store = createStore(reducer,
     applyMiddleware(ReduxThunk))
 store.dispatch(loadTodos() as any)
+store.dispatch(loadUser() as any)
 ReactDOM.render(<Provider store={store}><App/></Provider>, document.getElementById('root'))
