@@ -14,7 +14,7 @@ class AddUserIdToTodos extends Migration
     public function up()
     {
         Schema::table('todos', function (Blueprint $table) {
-            $table->foreignId('user_id')->nullable();
+            $table->foreignId('user_id')->nullable()->references('id')->on('users');
         });
     }
 

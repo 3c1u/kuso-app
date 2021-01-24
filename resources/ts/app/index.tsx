@@ -10,6 +10,9 @@ type Todo = {
     title: string
     created_at: string
     updated_at: string
+    user: {
+        name: string
+    } | null
 }
 
 interface User {
@@ -210,6 +213,7 @@ const App = (props: {}) => {
                                 dispatch(removeTodo(v.id) as any)
                             }}/>
                             <span className="todo-label">{v.title}</span>
+                            {v.user === null ? null : <span className="user-label">（{v.user.name}）</span>}
                         </p>)}
                     <form className="todo-form" onSubmit={handleSubmit}>
                         <input className="todo-input" type="text" value={todo} onChange={handleChange}/>

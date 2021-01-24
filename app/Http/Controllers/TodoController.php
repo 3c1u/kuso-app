@@ -4,26 +4,30 @@ namespace App\Http\Controllers;
 
 use App\Models\Todo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TodoController extends Controller
 {
     public function todos()
     {
-        return Todo::all();
+        return Todo::with('user:id,name')->get();
     }
 
     public function addTodo(Request $request) {
+        $id = Auth::id();
         $todo = new Todo;
         $todo->title = $request->todo;
+        $todo->user_id = $id == null ? null : intval($id);
         $todo->save();
-
-        $todos = Todo::all();
-        return $todos;
+        return $this->todos();
     }
 
     public function removeTodo(string $id) {
-        Todo::where('id', (int) $id)->delete();
-        $todos = Todo::all();
-        return $todos;
+        Todo::where('id', (int) $id)
+            ->where(function ($query) {
+                $query->orWhere('user_id', Auth::id())
+                      ->orWhereNull('user_id');
+            })->delete();
+        return $this->todos();
     }
 }
