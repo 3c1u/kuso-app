@@ -5,18 +5,18 @@ import {createSelectorHook, Provider, useDispatch} from 'react-redux'
 import ReduxThunk, {ThunkAction} from 'redux-thunk';
 import axios from 'axios';
 
+interface User {
+    name: string
+    id: number
+    avatar: string
+}
+
 type Todo = {
     id: number
     title: string
     created_at: string
     updated_at: string
-    user: {
-        name: string
-    } | null
-}
-
-interface User {
-    name: string
+    user: User | null
 }
 
 interface State {
@@ -183,6 +183,14 @@ const Header = () => {
     </div>
 }
 
+const UserIcon = ({user}: {user: User | null}) => {
+    if (user === null) {
+        return <span className="icon-skeleton" />
+    }
+
+    return <img className="icon" src={user.avatar} alt={user.name} width={24} />
+}
+
 const App = (props: {}) => {
     const [todo, setTodo] = React.useState('')
     const dispatch = useDispatch()
@@ -199,7 +207,10 @@ const App = (props: {}) => {
     const handleChange = (e: ChangeEvent) => {
         setTodo((e.target as HTMLInputElement).value)
     }
-    const [loading, sending, todos] = useSelector(({loading, sending, todos}) => [loading, sending, todos])
+    const [loading, sending, todos, user] = useSelector(({loading, sending, todos, user}) => [loading, sending, todos, user])
+    const isDeletable = (t: Todo): boolean => {
+        return t.user === null || (user !== null && user.id === t.user.id)
+    }
 
     return (<div className="app-root">
         <Header/>
@@ -209,9 +220,9 @@ const App = (props: {}) => {
                 <div>
                     {loading ? <p>loading...</p> : todos.map(v =>
                         <p className="todo-item" key={v.id}>
-                            <DeleteButton onClick={() => {
+                            {isDeletable(v) ? <DeleteButton onClick={() => {
                                 dispatch(removeTodo(v.id) as any)
-                            }}/>
+                            }}/> : <UserIcon user={v.user} />}
                             <span className="todo-label">{v.title}</span>
                             {v.user === null ? null : <span className="user-label">（{v.user.name}）</span>}
                         </p>)}

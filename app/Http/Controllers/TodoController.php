@@ -10,7 +10,7 @@ class TodoController extends Controller
 {
     public function todos()
     {
-        return Todo::with('user:id,name')->get();
+        return Todo::with('user')->get();
     }
 
     public function addTodo(Request $request) {
