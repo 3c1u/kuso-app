@@ -14,9 +14,6 @@
         "re:watch": "bsb -make-world -clean-world -w"
     },
     "devDependencies": {
-        "@types/react": "^17.0.0",
-        "@types/react-dom": "^17.0.0",
-        "@types/react-redux": "^7.1.15",
         "bs-platform": "^8.4.2",
         "gentype": "^3.42.0",
         "laravel-mix": "^6.0.6",
@@ -31,10 +28,11 @@
     },
     "dependencies": {
         "axios": "^0.21",
-        "react": "^17.0.1",
-        "react-dom": "^17.0.1",
-        "react-redux": "^7.2.2",
+        "bs-axios": "^0.0.43",
+        "react": "^16.8.6",
+        "react-dom": "^16.8.6",
         "reason-react": "^0.9.1",
+        "reductive": "^2.1.1",
         "redux": "^4.0.5",
         "redux-thunk": "^2.3.0"
     }

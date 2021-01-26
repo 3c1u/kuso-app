@@ -1,7 +1,7 @@
 // DeleteButton
 
-@genType
-let default = (~onClick) =>
+@react.component
+let make = (~onClick) =>
   <button className="delete-button" onClick={onClick}>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
           <g>

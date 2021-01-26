@@ -14,7 +14,7 @@
         }
     ],
     "reason": { "react-jsx": 3 },
-    "bs-dependencies": ["reason-react"],
+    "bs-dependencies": ["reason-react", "reductive", "bs-axios"],
     "suffix": ".bs.js",
     "namespace": true,
     "ppx-flags": [],
