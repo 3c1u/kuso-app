@@ -3,18 +3,25 @@
     "scripts": {
         "dev": "yarn development",
         "development": "mix",
-        "watch": "mix watch",
+        "watch": "run-p re:watch mix:watch",
+        "mix:watch": "mix watch",
         "watch-poll": "mix watch -- --watch-options-poll=1000",
         "hot": "mix watch --hot",
         "prod": "npm run production",
-        "production": "mix --production"
+        "production": "run-s re:build mix:production",
+        "mix:production": "mix --production",
+        "re:build": "bsb -make-world -clean-world",
+        "re:watch": "bsb -make-world -clean-world -w"
     },
     "devDependencies": {
         "@types/react": "^17.0.0",
         "@types/react-dom": "^17.0.0",
         "@types/react-redux": "^7.1.15",
+        "bs-platform": "^8.4.2",
+        "gentype": "^3.42.0",
         "laravel-mix": "^6.0.6",
         "lodash": "^4.17.19",
+        "npm-run-all": "^4.1.5",
         "postcss": "^8.1.14",
         "resolve-url-loader": "3.1.0",
         "sass": "^1.32.5",
@@ -27,6 +34,7 @@
         "react": "^17.0.1",
         "react-dom": "^17.0.1",
         "react-redux": "^7.2.2",
+        "reason-react": "^0.9.1",
         "redux": "^4.0.5",
         "redux-thunk": "^2.3.0"
     }

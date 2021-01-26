@@ -11,3 +11,9 @@ Homestead.json
 Homestead.yaml
 npm-debug.log
 yarn-error.log
+*.bs.js
+/lib/
+.bsb.lock
+.merlin
+*.gen.tsx
+*.gen.ts

@@ -2,8 +2,9 @@ import React, {ChangeEvent, FormEvent} from 'react'
 import ReactDOM from 'react-dom'
 import {applyMiddleware, createStore} from 'redux'
 import {createSelectorHook, Provider, useDispatch} from 'react-redux'
-import ReduxThunk, {ThunkAction} from 'redux-thunk';
-import axios from 'axios';
+import ReduxThunk, {ThunkAction} from 'redux-thunk'
+import axios from 'axios'
+import DeleteButton from '../../bs/DeleteButton.gen'
 
 interface User {
     name: string
@@ -125,20 +126,6 @@ export const removeTodo = (id: number): ThunkAction<Promise<void>, State, undefi
 }
 
 export const useSelector = createSelectorHook<State, Actions>()
-
-const DeleteButton = (props: any) => (
-    <button {...props} className="delete-button">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-            <g data-name="Layer 2">
-                <g data-name="close">
-                    <rect width="24" height="24" transform="rotate(180 12 12)" opacity="0"/>
-                    <path
-                        d="M13.41 12l4.3-4.29a1 1 0 1 0-1.42-1.42L12 10.59l-4.29-4.3a1 1 0 0 0-1.42 1.42l4.3 4.29-4.3 4.29a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l4.29-4.3 4.29 4.3a1 1 0 0 0 1.42 0 1 1 0 0 0 0-1.42z"
-                    />
-                </g>
-            </g>
-        </svg>
-    </button>)
 
 const Header = () => {
     const [email, setEmail] = React.useState('')
