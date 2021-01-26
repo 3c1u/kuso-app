@@ -34,19 +34,11 @@ let make = () => {
                     </div>
                 | None =>
                     <div className="login-group">
-                        <form onSubmit={(e) => {
-                            ReactEvent.Form.preventDefault(e)
-                            ignore(Axios.postData(`/api/login`, {"email": email, "password": password})->Js.Promise.then_(_ => {
-                                dispatch(ReduxThunk.Thunk(Store.loadUser))
-                                Js.Promise.resolve(())
-                            }, _))
-                        }}>
-                            <input type_="email" name="email" className="form-input" placeholder="Email" value={email}
-                                onChange={handleEmailChange}/>
-                            <input type_="password" name="password" className="form-input" placeholder="Password" value={password}
-                                   onChange={handlePasswordChange}/>
-                            <button className="login-button">{ReasonReact.string("Login")}</button>
-                        </form>
+                        <Inertia.Link href="/login">
+                            <span className="login-link">
+                                {ReasonReact.string("Login")}
+                            </span>
+                        </Inertia.Link>
                     </div>
             }
         }

@@ -122,6 +122,16 @@ let store = Reductive.Store.create(
     ()
 )
 
+let bootstrap = () => {
+    store->Reductive.Store.dispatch(
+        ReduxThunk.Thunk(loadTodos)
+    )
+
+    store->Reductive.Store.dispatch(
+        ReduxThunk.Thunk(loadUser)
+    )
+}
+
 include ReductiveContext.Make({
   type state = state
   type action = ReduxThunk.thunk<state>

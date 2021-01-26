@@ -4,11 +4,3 @@ ReactDOMRe.renderToElementWithId(
     </Store.Provider>,
     "root",
 )
-
-Store.store->Reductive.Store.dispatch(
-    ReduxThunk.Thunk(Store.loadTodos)
-)
-
-Store.store->Reductive.Store.dispatch(
-    ReduxThunk.Thunk(Store.loadUser)
-)

@@ -39,31 +39,32 @@ body
     > .form-group
         display: flex
 
-.logout-group
+.logout-group, .login-group
     display: flex
     align-items: center
-    .logout-button
-        position: relative
-        background: none
-        margin: 0 10px
-        padding: 0
-        cursor: pointer
-        color: #1478f1
-        &::after
-            position: absolute
-            bottom: 1px
-            left: 0
-            content: ''
-            width: 100%
-            height: 1px
-            background: #1478f1
-            transition-property: opacity, transform
-            transition-duration: 200ms
-        &:hover::after
-            opacity: 0
-            transform: scaleX(0.1)
-        &:not(:focus-visible)
-            outline: none
+
+.logout-button, .login-link
+    position: relative
+    background: none
+    margin: 0 10px
+    padding: 0
+    cursor: pointer
+    color: #1478f1
+    &::after
+        position: absolute
+        bottom: 1px
+        left: 0
+        content: ''
+        width: 100%
+        height: 1px
+        background: #1478f1
+        transition-property: opacity, transform
+        transition-duration: 200ms
+    &:hover::after
+        opacity: 0
+        transform: scaleX(0.1)
+    &:not(:focus-visible)
+        outline: none
 
 .app-body
     display: flex
