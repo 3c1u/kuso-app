@@ -38,6 +38,8 @@
         "autoprefixer": "^10.2.3",
         "axios": "^0.21",
         "bs-axios": "^0.0.43",
+        "laravel-echo": "^1.10.0",
+        "pusher-js": "^7.0.3",
         "react": "^16.8.6",
         "react-dom": "^16.8.6",
         "reason-react": "^0.9.1",

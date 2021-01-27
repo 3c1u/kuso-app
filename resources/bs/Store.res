@@ -7,8 +7,6 @@ type user = {
 type todo = {
     id: int,
     title: string,
-    created_at: string,
-    updated_at: string,
     user: Js.Nullable.t<user>
 }
 
@@ -131,6 +129,8 @@ let bootstrap = () => {
         ReduxThunk.Thunk(loadUser)
     )
 }
+
+let dispatch = a => store->Reductive.Store.dispatch(Action(a))
 
 include ReductiveContext.Make({
   type state = state

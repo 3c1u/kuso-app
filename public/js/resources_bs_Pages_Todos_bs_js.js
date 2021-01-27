@@ -91,7 +91,7 @@ function App(Props) {
     className: "todos"
   }, match$1.loading ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("p", undefined, "loading...") : bs_platform_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_2__.map(match$1.todos, function (v) {
     var user = v.user;
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("p", {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("div", {
       key: String(v.id),
       className: "todo-item"
     }, isDeletable(v) ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement(_DeleteButton_bs_js__WEBPACK_IMPORTED_MODULE_7__.make, {

@@ -33,7 +33,7 @@ let make = () => {
                         <p>{ReasonReact.string(`loading...`)}</p>
                     } else {
                         ReasonReact.array(Belt.Array.map(todos, v =>
-                            <p className="todo-item" key={Belt.Int.toString(v.id)}>
+                            <div className="todo-item" key={Belt.Int.toString(v.id)}>
                                 {if isDeletable(v) {
                                     <DeleteButton onClick={(_) => {
                                         dispatch(ReduxThunk.Thunk(Store.removeTodo(v.id)))
@@ -56,7 +56,7 @@ let make = () => {
                                         }
                                     }
                                 </div>
-                            </p>)
+                            </div>)
                         )
                     }
                 }
