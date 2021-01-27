@@ -2,17 +2,20 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap');
+
 html {
-    @apply bg-gray-300;
+    @apply bg-gray-300 font-body;
 }
 
 .header {
-    @apply flex flex-row items-center box-border w-full h-12 md:h-16 px-2 py-4 md:px-4;
+    @apply flex flex-row items-center box-border w-full h-12 md:h-16 px-2 py-4 md:px-4 text-gray-600;
 }
 
 .header-branding {
-    @apply text-xl md:text-3xl font-bold flex-grow text-gray-600;
+    @apply text-xl md:text-3xl font-bold flex-grow;
 }
+
 .fancy-link {
     position: relative;
     background: none;
@@ -52,7 +55,7 @@ html {
 }
 
 .todos-heading {
-    @apply p-0 mb-2 text-gray-900 font-medium text-xl;
+    @apply p-0 mb-2 text-gray-900 font-semibold text-xl;
 }
 
 .todos {
