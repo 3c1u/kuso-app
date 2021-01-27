@@ -10,7 +10,7 @@ axios.defaults.withCredentials = true
 bootstrap()
 
 InertiaProgress.init({
-    color: '#ed8936',
+    color: '#1478f1',
     showSpinner: true
 })
 

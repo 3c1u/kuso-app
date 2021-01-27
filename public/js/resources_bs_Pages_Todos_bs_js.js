@@ -203,13 +203,6 @@ function stateSelector(state) {
 }
 
 function Header(Props) {
-  react__WEBPACK_IMPORTED_MODULE_2__.useState(function () {
-    return "";
-  });
-  react__WEBPACK_IMPORTED_MODULE_2__.useState(function () {
-    return "";
-  });
-
   var dispatch = bs_platform_lib_es6_curry_js__WEBPACK_IMPORTED_MODULE_0__._1(_Store_bs_js__WEBPACK_IMPORTED_MODULE_3__.useDispatch, undefined);
 
   var match = bs_platform_lib_es6_curry_js__WEBPACK_IMPORTED_MODULE_0__._1(_Store_bs_js__WEBPACK_IMPORTED_MODULE_3__.useSelector, stateSelector);

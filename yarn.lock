@@ -2,6 +2,11 @@
 # yarn lockfile v1
 
 
+"@3c1u/bs-inertia@0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@3c1u/bs-inertia/-/bs-inertia-0.1.0.tgz#3b0f9b0d272746bd6eb8c6066a96db93da1bfd30"
+  integrity sha512-kkMF+NPzp+nvxn9oiN9fuwjgH3pGAsWNfq4YFS3sppecFUDqcS+Ofzw0spAv9G1GhooVYYgo1ben7yNFMJyh2g==
+
 "@babel/code-frame@^7.0.0", "@babel/code-frame@^7.10.4", "@babel/code-frame@^7.12.11":
   version "7.12.11"
   resolved "https://registry.yarnpkg.com/@babel/code-frame/-/code-frame-7.12.11.tgz#f4ad435aa263db935b8f10f2c552d23fb716a63f"
