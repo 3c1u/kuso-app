@@ -24,26 +24,25 @@ let make = () => {
         setTodo(target["value"])
     }
 
-    <div>
-        <Header />
-        <div className="app-body">
-            <div className="app-container">
-                <h2 className="todos-heading">{ReasonReact.string("Todos")}</h2>
-                <div className="todos">
-                    {
-                        if loading {
-                            <p>{ReasonReact.string(`loading...`)}</p>
-                        } else {
-                            ReasonReact.array(Belt.Array.map(todos, v =>
-                                <p className="todo-item" key={Belt.Int.toString(v.id)}>
-                                    {if isDeletable(v) {
-                                        <DeleteButton onClick={(_) => {
-                                            dispatch(ReduxThunk.Thunk(Store.removeTodo(v.id)))
-                                            ()
-                                        }}/>
-                                    } else {
-                                        <UserIcon user={Js.toOption(v.user)} />
-                                    }}
+    <div className="app-body">
+        <div className="app-container">
+            <h2 className="todos-heading">{ReasonReact.string("Todos")}</h2>
+            <div className="todos">
+                {
+                    if loading {
+                        <p>{ReasonReact.string(`loading...`)}</p>
+                    } else {
+                        ReasonReact.array(Belt.Array.map(todos, v =>
+                            <p className="todo-item" key={Belt.Int.toString(v.id)}>
+                                {if isDeletable(v) {
+                                    <DeleteButton onClick={(_) => {
+                                        dispatch(ReduxThunk.Thunk(Store.removeTodo(v.id)))
+                                        ()
+                                    }}/>
+                                } else {
+                                    <UserIcon user={Js.toOption(v.user)} />
+                                }}
+                                <div className="todo-label-container">
                                     <span className="todo-label">
                                         {ReasonReact.string(v.title)}
                                     </span>
@@ -56,17 +55,17 @@ let make = () => {
                                                 </span>
                                         }
                                     }
-                                </p>)
-                            )
-                        }
+                                </div>
+                            </p>)
+                        )
                     }
-                    <form className="todo-form" onSubmit={handleSubmit}>
-                        <input className="todo-input" type_="text" value={todo} onChange={handleChange} placeholder="Lorem ipsum..." />
-                        <button className="add-button" disabled={sending || Js_string.length(todo) === 0}>
-                            {ReasonReact.string("Add")}
-                        </button>
-                    </form>
-                </div>
+                }
+                <form className="todo-form" onSubmit={handleSubmit}>
+                    <input className="todo-input" type_="text" value={todo} onChange={handleChange} placeholder="Lorem ipsum..." />
+                    <button className="add-button" disabled={sending || Js_string.length(todo) === 0}>
+                        {ReasonReact.string("Add")}
+                    </button>
+                </form>
             </div>
         </div>
     </div>

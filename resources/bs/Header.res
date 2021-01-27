@@ -11,7 +11,12 @@ let make = () => {
             switch user {
                 | Some(user) =>
                     <div className="logout-group flex flex-row items-center">
-                        <p className="m-0 p-0 text-sm">{ReasonReact.string("Logged as: " ++ user.name)}</p>
+                        <p className="flex flex-row items-center m-0 p-0 text-sm">
+                            <UserIcon user={Some(user)} />
+                            <span className="ml-2">
+                                {ReasonReact.string("Logged as: " ++ user.name)}
+                            </span>
+                        </p>
                         <form className="flex" onSubmit={(e) => {
                             ReactEvent.Form.preventDefault(e)
                             ignore(Axios.post(`/api/logout`)->Js.Promise.then_(_ => {

@@ -1,5 +1,9 @@
 @react.component
 let make = () =>
-    <App />
+    <>
+        <Header />
+        <App />
+        <Footer />
+    </>
 
 let default = make

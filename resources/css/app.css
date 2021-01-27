@@ -13,7 +13,6 @@ html {
 .header-branding {
     @apply text-xl md:text-3xl font-bold flex-grow text-gray-600;
 }
-
 .fancy-link {
     position: relative;
     background: none;
@@ -44,11 +43,12 @@ html {
 }
 
 .app-body {
-    @apply mt-6 md:mt-12;
+    @apply md:mt-6 md:mt-12;
 }
 
 .app-container {
-    @apply flex flex-col p-6 max-w-md mx-auto bg-white rounded-md shadow-lg;
+    @apply flex flex-col pt-6 pb-12 px-6 md:py-6 box-border
+            md:max-w-md m-2 md:mx-auto bg-white rounded-md shadow-lg;
 }
 
 .todos-heading {
@@ -66,11 +66,15 @@ html {
 .icon-skeleton, .icon {
     width: 24px;
     height: 24px;
-    @apply bg-gray-400 rounded-full;
+    @apply bg-gray-400 box-border p-0 rounded-full flex-shrink-0;
+}
+
+.todo-label-container {
+    @apply ml-2;
 }
 
 .todo-label {
-    @apply text-gray-800 text-base ml-2;
+    @apply text-gray-800 text-base;
 }
 
 .user-label {
@@ -100,7 +104,7 @@ html {
     width: 16px;
     height: 16px;
     margin: 4px;
-    @apply box-border p-0 rounded-full;
+    @apply box-border p-0 rounded-full flex-shrink-0;
 }
 
 .delete-button:hover {
@@ -133,4 +137,8 @@ html {
 .add-button:not(:disabled), .login-button:not(:disabled) {
     @apply hover:bg-blue-700 focus:outline-none focus:ring-2
         focus:ring-blue-400 focus:ring-opacity-75;
+}
+
+.footer-branding {
+    @apply text-gray-500 text-center my-8 text-xs;
 }
