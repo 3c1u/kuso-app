@@ -4,6 +4,8 @@
         "dev": "yarn development",
         "development": "mix",
         "watch": "run-p re:watch mix:watch",
+        "serve": "run-p artisan:serve watch",
+        "artisan:serve": "php artisan serve",
         "mix:watch": "mix watch",
         "watch-poll": "mix watch -- --watch-options-poll=1000",
         "hot": "mix watch --hot",

@@ -2,9 +2,9 @@ const baseFont = ['"Open Sans"', '-apple-system', 'BlinkMacSystemFont', '"Segoe 
 
 module.exports = {
     purge: [
-        "resources/bs/*.js",
+        'resources/bs/**/*.js',
     ],
-    darkMode: false,
+    darkMode: 'media',
     theme: {
         extend: {
             fontFamily: {
