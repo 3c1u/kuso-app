@@ -89,7 +89,9 @@ function App(Props) {
     className: "app-container"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("h2", {
     className: "todos-heading"
-  }, "Todos"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("div", undefined, match$1.loading ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("p", undefined, "loading...") : bs_platform_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_2__.map(match$1.todos, function (v) {
+  }, "Todos"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("div", {
+    className: "todos"
+  }, match$1.loading ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("p", undefined, "loading...") : bs_platform_lib_es6_belt_Array_js__WEBPACK_IMPORTED_MODULE_2__.map(match$1.todos, function (v) {
     var user = v.user;
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("p", {
       key: String(v.id),
@@ -117,6 +119,7 @@ function App(Props) {
     onSubmit: handleSubmit
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("input", {
     className: "todo-input",
+    placeholder: "Lorem ipsum...",
     type: "text",
     value: todo,
     onChange: handleChange
@@ -210,9 +213,14 @@ function Header(Props) {
   var user = match.user;
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2__.createElement("div", {
     className: "header"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2__.createElement("h1", undefined, "Kuso App"), user !== undefined ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2__.createElement("div", {
-    className: "logout-group"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2__.createElement("p", undefined, "Logged as: " + user.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2__.createElement("form", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2__.createElement("h1", {
+    className: "header-branding"
+  }, "Kuso App"), user !== undefined ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2__.createElement("div", {
+    className: "logout-group flex flex-row items-center"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2__.createElement("p", {
+    className: "m-0 p-0 text-sm"
+  }, "Logged as: " + user.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2__.createElement("form", {
+    className: "flex",
     onSubmit: function onSubmit(e) {
       e.preventDefault();
 
@@ -228,13 +236,13 @@ function Header(Props) {
       });
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2__.createElement("button", {
-    className: "logout-button"
+    className: "fancy-link text-sm m-0 ml-2"
   }, "Logout"))) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2__.createElement("div", {
     className: "login-group"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2__.createElement(_inertiajs_inertia_react__WEBPACK_IMPORTED_MODULE_5__.InertiaLink, {
     href: "/login",
     children: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2__.createElement("span", {
-      className: "login-link"
+      className: "fancy-link"
     }, "Login")
   })));
 }

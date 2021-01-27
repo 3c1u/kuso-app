@@ -29,7 +29,7 @@ let make = () => {
         <div className="app-body">
             <div className="app-container">
                 <h2 className="todos-heading">{ReasonReact.string("Todos")}</h2>
-                <div>
+                <div className="todos">
                     {
                         if loading {
                             <p>{ReasonReact.string(`loading...`)}</p>
@@ -61,7 +61,7 @@ let make = () => {
                         }
                     }
                     <form className="todo-form" onSubmit={handleSubmit}>
-                        <input className="todo-input" type_="text" value={todo} onChange={handleChange}/>
+                        <input className="todo-input" type_="text" value={todo} onChange={handleChange} placeholder="Lorem ipsum..." />
                         <button className="add-button" disabled={sending || Js_string.length(todo) === 0}>
                             {ReasonReact.string("Add")}
                         </button>
